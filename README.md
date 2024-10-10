@@ -1,4 +1,3 @@
-# iut_sd2_rshiny_enedis
 # IUT_SD2
 
 Ce document `README.md` va présenter le contenu de ce référentiel Git.
