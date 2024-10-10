@@ -13,7 +13,7 @@ Ce documet est écrit dans le cadre d'un projet qui a pour but d'évaluer l'impa
 ## Planning
 
 1. Partie 1 : Rapport d'étude RMarkdown
-2. Partie 2 : Application 
+2. Partie 2 : Application RShiny
 3. Partie 3 : Documentation technique
 4. Partie 4 : Documentation fonctionnelle
 5. Partie 5 : lien youtube
