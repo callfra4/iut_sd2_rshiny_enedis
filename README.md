@@ -12,7 +12,7 @@ Ce documet est écrit dans le cadre d'un projet qui a pour but d'évaluer l'impa
 
 ## Planning
 
-1. Partie 1 : Rapport d'étude RMarkdown
+1. Partie 1 : Boucle de récuparation des données de l'API
 2. Partie 2 : Rapport d'étude RMarkdown
 3. Partie 3 : Application RShiny
 4. Partie 4 : Documentation technique
