@@ -1,4 +1,4 @@
-## Partie 1 : Rapport d'étude RMarkdown
+## Partie 2 : Rapport d'étude RMarkdown
 
 ## Contenus
 
