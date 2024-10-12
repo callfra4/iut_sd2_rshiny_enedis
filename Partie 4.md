@@ -11,7 +11,7 @@
 
 ## Présentation technique
 
-# Présentation des packages nécessaires 
+### Présentation des packages nécessaires 
 
 **shiny** : Le package principal pour créer des applications web interactives en R. Il permet de construire l'interface utilisateur (UI) et de gérer le serveur backend pour rendre l'application dynamique.
 
