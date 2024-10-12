@@ -3,7 +3,7 @@
 ## Contenus
 
 - [x] Script du rapport statistique
-- [x] [Liens du document HTML](#https://candicesd.github.io/iut_sd2_rshiny_enedis/)
+- [x] Liens du document HTML : https://candicesd.github.io/iut_sd2_rshiny_enedis/
 
 
 ##  Script du rapport statistique
