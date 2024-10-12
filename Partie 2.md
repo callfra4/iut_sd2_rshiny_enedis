@@ -627,4 +627,3 @@ if (params$Logement == "les deux comparés") {
 Cependant, l’analyse a montré que certains facteurs qui pourraient influencer la consommation énergétique ne l’influence finalement pas ou peu comme les différent type de logement (maison/immeuble) par exemple dont la consommation énergétique ne varie pas explicitement d’un type à l’autre.
 
 
-## Lien du document HTML 
