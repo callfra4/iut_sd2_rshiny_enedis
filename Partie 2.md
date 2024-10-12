@@ -9,8 +9,8 @@
 ##  Script du rapport statistique
 
 Il est possible de choisir sur quel paramètre la rapport statistique portera, en modifiant les paramètres (params) d'entrée : 
-
-```r
+- code_postal : "tous" ou un des codes postaux du 69 (ex: 69100)
+- Logement : "neuf" ou "ancien" ou "les deux groupés" (rapport sur toutes les données) ou "les deux comparés" (rapport sur toutes les données en dissociant les logements neufs et anciens) 
 ---
 title: "Rapport Statistique"
 output:
@@ -31,6 +31,7 @@ L’étiquette DPE (Diagnostic de Performance Énergétique) est souvent consid�
 
 ```{r paramètre , include=FALSE, echo = FALSE, warning=FALSE,message=FALSE}
 library(dplyr)
+#Encoadage des paramètres
 DF_Finale =read.csv("DF_Finale.csv",header=TRUE, dec=".",sep=",")
 
 param_choisi <- DF_Finale %>% 
@@ -60,6 +61,7 @@ Type de logement : `r params$Logement`
  
 
 ```{r nombre, include=FALSE, echo = FALSE, warning=FALSE,message=FALSE}
+# nombre de logements 
 nb_log = if (params$Logement == "les deux comparés") {
   paste("Dans ce jeu de donnée, il y à ", nrow(param_choisi_ancien) , "logements ancien et " ,nrow(param_choisi_neuf), "logements neufs." )
 } else {
@@ -134,7 +136,6 @@ print(plot_ancien)
 
   
 } else {
-  # Créer un graphique simple pour un seul type de logement en utilisant `param_choisi`
   repartition_DPE <- param_choisi %>%
     group_by(Etiquette_DPE) %>%
     summarise(Nombre_logements = n(), .groups = 'drop')
@@ -148,7 +149,7 @@ print(plot_ancien)
 }
 ```
 ```{r analyse_répartition, include = FALSE, echo = FALSE, warning=FALSE,message=FALSE}
-# Analyse textuelle basée sur la répartition des étiquettes DPE
+# Analyse de la répartition
 texte_analyse4 <- if (params$Logement == "les deux comparés") {
   
   # Répartition DPE pour les logements neufs
@@ -165,7 +166,7 @@ texte_analyse4 <- if (params$Logement == "les deux comparés") {
   DPE_ancien_max <- repartition_DPE_ancien$Etiquette_DPE[which.max(repartition_DPE_ancien$Nombre_logements)]
   DPE_neuf_max <- repartition_DPE_neuf$Etiquette_DPE[which.max(repartition_DPE_neuf$Nombre_logements)]
   
-  # Construction du texte d'analyse
+  # Texte d'analyse
   texte <- paste(
   "L'étiquette DPE la plus représentée pour les **logements anciens** est la ", DPE_ancien_max, ".",
     "<br>Pour les **logements neufs**, l'étiquette la plus représentée est la ", DPE_neuf_max, ".",
@@ -173,7 +174,6 @@ texte_analyse4 <- if (params$Logement == "les deux comparés") {
   )
   
 } else {
-  # Répartition DPE pour un seul type de logement
   repartition_DPE <- param_choisi %>%
     group_by(Etiquette_DPE) %>%
     summarise(Nombre_logements = n(), .groups = 'drop')
@@ -181,7 +181,7 @@ texte_analyse4 <- if (params$Logement == "les deux comparés") {
   # Étiquette la plus fréquente
   DPE_max <- repartition_DPE$Etiquette_DPE[which.max(repartition_DPE$Nombre_logements)]
   
-  # Construction du texte d'analyse
+  # Texte d'analyse
   texte <- paste(
     "L'étiquette DPE la plus représentée est la ", DPE_max, "."
   )
@@ -203,6 +203,7 @@ conso_moyenne_DPE_neuf <- param_choisi_neuf %>%
   group_by(Etiquette_DPE) %>%
   summarise(Conso_moyenne = mean(Conso_5_usages_par_m._é_primaire, na.rm = TRUE)) %>%
   filter(!is.na(Conso_moyenne))  # Filtrer les NA
+
 # Créer le graphique en barres
 ancien = ggplot(conso_moyenne_DPE_ancien, aes(x = Etiquette_DPE, y = Conso_moyenne, fill = Etiquette_DPE)) +
   geom_bar(stat = "identity") +
@@ -222,6 +223,7 @@ neuf = ggplot(conso_moyenne_DPE_neuf, aes(x = Etiquette_DPE, y = Conso_moyenne, 
   geom_text(aes(label = round(Conso_moyenne, 2)), vjust = -0.5, size = 4)  # Ajouter les étiquettes de valeur sur chaque barre
 print(ancien)
 print(neuf)
+
  DPE_ancien_max <- conso_moyenne_DPE_ancien$Etiquette_DPE[which.max(conso_moyenne_DPE_ancien$Conso_moyenne)]
   DPE_ancien_min <- conso_moyenne_DPE_ancien$Etiquette_DPE[which.min(conso_moyenne_DPE_ancien$Conso_moyenne)]
   DPE_neuf_max <- conso_moyenne_DPE_neuf$Etiquette_DPE[which.max(conso_moyenne_DPE_neuf$Conso_moyenne)]
@@ -231,8 +233,7 @@ print(neuf)
   conso_ancien_min <- min(conso_moyenne_DPE_ancien$Conso_moyenne)
   conso_neuf_max <- max(conso_moyenne_DPE_neuf$Conso_moyenne)
   conso_neuf_min <- min(conso_moyenne_DPE_neuf$Conso_moyenne)
-
-  # Construction du texte d'analyse
+ # Texte d'analyse
   DPE_analyse <- paste(
     "<div style='clear: both;'></div>","Pour les **logements anciens**, l'étiquette DPE la plus représentée est ", 
     DPE_ancien_max, " avec une consommation moyenne de ", round(conso_ancien_max, 2), " kWh/m², tandis que l'étiquette avec la consommation la plus faible est ",
@@ -266,7 +267,7 @@ print(DPE)
   conso_max <- max(conso_moyenne_DPE$Conso_moyenne)
   conso_min <- min(conso_moyenne_DPE$Conso_moyenne)
 
-  # Construction du texte d'analyse
+  # Texte d'analyse
   DPE_analyse <- paste(
     "<div style='clear: both;'></div>","L'étiquette DPE la plus représentée est ", 
     DPE_max, " avec une consommation moyenne de ", round(conso_max, 2), " kWh/m², tandis que l'étiquette avec la consommation la plus faible est ",
@@ -278,14 +279,11 @@ print(DPE)
 `r DPE_analyse`
 
 ```{r écart-type, echo = FALSE, warning=FALSE,message=FALSE}
-
-
-
 library(dplyr)
 library(knitr)
 
 if (params$Logement == "les deux comparés") {
-  # Calculer l'écart-type pour les logements neufs et anciens séparément
+  # Calculer l'écart-type pour les logements neufs et anciens 
   ecart_type_dpe_neuf <- param_choisi_neuf %>%
     group_by(Etiquette_DPE) %>%
     summarise(
@@ -334,7 +332,7 @@ if (params$Logement == "les deux comparés") {
   ecart_type_ancien_max <- max(ecart_type_dpe$ecart_type_ancien, na.rm = TRUE)
   ecart_type_ancien_min <- min(ecart_type_dpe$ecart_type_ancien, na.rm = TRUE)
 
-  # Analyse textuelle pour les deux types de logements
+  # Analyse pour les deux types de logements
   texte_analyse_ecart_type <- paste(
     "Pour les **logements neufs**, l'étiquette DPE avec l'écart-type le plus élevé est la ", DPE_neuf_max, 
     " avec un écart-type de ", ecart_type_neuf_max, 
@@ -351,7 +349,7 @@ if (params$Logement == "les deux comparés") {
   ecart_type_max <- max(ecart_type_dpe$ecart_type_conso)
   ecart_type_min <- min(ecart_type_dpe$ecart_type_conso)
 
-  # Analyse textuelle
+  # Analyse 
   texte_analyse_ecart_type <- paste(
     "Dans ce jeu de données pour les **logements", params$Logement, 
     "**, l'étiquette DPE avec l'écart-type le plus élevé est la ", DPE_max, 
@@ -364,6 +362,7 @@ if (params$Logement == "les deux comparés") {
 `r texte_analyse_ecart_type`
 
 ```{r période_construction, echo = FALSE, warning=FALSE,message=FALSE}
+# Créer une colonne pour les périodes de construction
 if (params$Logement == "neuf" || params$Logement == "les deux comparés") {texte_analyse = paste("Pour ces paramètres, le graphique sur la **Répartition de la Consommation Moyenne par Période de Construction** n'est pas pertinent.")
   } else{
 param_choisi$Periode_construction <- cut(param_choisi$Année_construction,
@@ -374,7 +373,7 @@ param_choisi$Periode_construction <- cut(param_choisi$Année_construction,
 
 library(dplyr)
 library(ggplot2)
-# Calculer la consommation totale par période de construction (en exluant les valeur null)
+# Calculer la consommation totale par période de construction 
 conso_par_periode <- param_choisi %>%
   filter(!is.na(Periode_construction), !is.na(Conso_5_usages_par_m._é_primaire)) %>%  # Exclure les NA dans les deux colonnes
   group_by(Periode_construction) %>%
@@ -408,7 +407,7 @@ diagramme = (ggplot(conso_par_periode, aes(x = "", y = consommation_moyenne, fil
   
   moyenne_globale <- round(mean(conso_par_periode$consommation_moyenne), 2)
   
-  # Analyse automatisée
+  # Analyse 
   texte_analyse <- paste("<div style='clear: both;'></div>","Les logements construits", min_periode, 
                          "ont la consommation énergétique moyenne la plus faible avec", 
                          min_conso, "kWh/m². À l'inverse, les logements construits durant la période", 
@@ -520,8 +519,8 @@ library(dplyr)
 if (params$Logement == "les deux comparés") {
 # Scatter plot Consommation vs Surface
 param_choisi_ancien <- param_choisi_ancien %>%
-  filter(Surface_habitable_logement > 10 & Surface_habitable_logement < quantile(Surface_habitable_logement, 0.95, na.rm = TRUE))  %>%  # Supprimer les 5% supérieurs
-    filter(Conso_5_usages_é_finale > 0 & Conso_5_usages_é_finale < quantile(Conso_5_usages_é_finale, 0.95, na.rm = TRUE)) # Supprimer les 5% supérieurs
+  filter(Surface_habitable_logement > 10 & Surface_habitable_logement < quantile(Surface_habitable_logement, 0.95, na.rm = TRUE))  %>%  
+    filter(Conso_5_usages_é_finale > 0 & Conso_5_usages_é_finale < quantile(Conso_5_usages_é_finale, 0.95, na.rm = TRUE)) 
   
 # Créer le nuage de points avec la ligne de régression linéaire
 nuage_ancien = (ggplot(param_choisi_ancien, aes(x = Surface_habitable_logement, y = Conso_5_usages_é_finale)) +
@@ -570,12 +569,12 @@ ggplot(param_choisi, aes(x = Surface_habitable_logement, y = Conso_5_usages_é_f
 
 ```{r nuage_point_analyse, echo = FALSE, warning=FALSE, message=FALSE, include = FALSE}
 
-# Définir une fonction pour générer l'analyse du nuage de points
+# Fonction pour générer l'analyse du nuage de points
 analyser_nuage_points <- function(data, titre) {
   # Calculer la corrélation entre la surface habitable et la consommation totale
   correlation <- cor(data$Surface_habitable_logement, data$Conso_5_usages_é_finale, use = "complete.obs")
   
-  # Ajuster un modèle de régression linéaire
+  # Modèle de régression linéaire
   model <- lm(Conso_5_usages_é_finale ~ Surface_habitable_logement, data = data)
   summary_model <- summary(model)
   
@@ -595,7 +594,7 @@ analyser_nuage_points <- function(data, titre) {
     paste("Il n'existe pas de relation significative entre la surface habitable et la consommation énergétique.")
   }
   
-  # Créer le texte d'analyse
+  # Texte d'analyse
   nuage_analyse1 <- paste0(
     "Pour le graphique : **", titre, "**<br>",
     "- **Corrélation** entre la surface habitable et la consommation totale : ", round(correlation, 2), "<br>",
