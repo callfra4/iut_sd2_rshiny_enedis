@@ -626,5 +626,5 @@ if (params$Logement == "les deux comparés") {
 À la suite de l’analyse de tous les graphiques, nous pouvons conclure que l’étiquette DPE est un réel indicateur de la consommation énergétique. De plus, nous avons pu observer que les logements neufs ont tendance à avoir des étiquettes DPE plus faible que les logements anciens. Nous pourrions penser que les techniques de constructions en terme d'isolation énergétique ce sont améliorés. 
 Cependant, l’analyse a montré que certains facteurs qui pourraient influencer la consommation énergétique ne l’influence finalement pas ou peu comme les différent type de logement (maison/immeuble) par exemple dont la consommation énergétique ne varie pas explicitement d’un type à l’autre.
 
-```
+
 ## Lien du document HTML 
