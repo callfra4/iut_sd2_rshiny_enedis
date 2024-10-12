@@ -11,6 +11,7 @@
 Il est possible de choisir sur quel paramètre la rapport statistique portera, en modifiant les paramètres (params) d'entrée : 
 - code_postal : "tous" ou un des codes postaux du 69 (ex: 69100)
 - Logement : "neuf" ou "ancien" ou "les deux groupés" (rapport sur toutes les données) ou "les deux comparés" (rapport sur toutes les données en dissociant les logements neufs et anciens) 
+```
 ---
 title: "Rapport Statistique"
 output:
