@@ -17,5 +17,5 @@ Ce documet est écrit dans le cadre d'un projet qui a pour but d'évaluer l'impa
 3. Partie 3 : Application RShiny
 4. Partie 4 : Documentation technique
 5. Partie 5 : Documentation fonctionnelle
-6. Partie 6 : lien youtube
+6. Partie 6 : lien youtube : https://youtu.be/ppchq4ybTsQ
 
